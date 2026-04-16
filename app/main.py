@@ -1,10 +1,17 @@
 from typing import List
 from fastapi import FastAPI
 
+# Prometheus Instrumentator for monitoring the FastAPI application and exposing metrics at the /metrics endpoint.
+from prometheus_fastapi_instrumentator import Instrumentator
+
 from app import services
 from app.schema import UserIn, BaseResponse, UserListOut
 
 app = FastAPI()
+
+# Adding Prometheus instrumentation to the FastAPI application to enable monitoring and metrics collection. 
+# The metrics will be exposed at the /metrics endpoint for Prometheus to scrape and analyze the application's performance and usage.
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/")
